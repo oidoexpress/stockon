@@ -19,6 +19,47 @@ menu = st.sidebar.selectbox(
 if menu == "📈 주식/증권":
 
     st.title("📈 AI 주식 분석기")
+        st.subheader("🌎 주요 증시 지수")
+
+    index_col1, index_col2, index_col3, index_col4 = st.columns(4)
+
+    try:
+        kospi = yf.Ticker("^KS11")
+        sp500 = yf.Ticker("^GSPC")
+        nasdaq = yf.Ticker("^IXIC")
+        dow = yf.Ticker("^DJI")
+
+        kospi_price = kospi.history(period="2d")["Close"]
+        sp500_price = sp500.history(period="2d")["Close"]
+        nasdaq_price = nasdaq.history(period="2d")["Close"]
+        dow_price = dow.history(period="2d")["Close"]
+
+        index_col1.metric(
+            "🇰🇷 KOSPI",
+            f"{kospi_price.iloc[-1]:.2f}",
+            f"{kospi_price.iloc[-1]-kospi_price.iloc[-2]:.2f}"
+        )
+
+        index_col2.metric(
+            "🇺🇸 S&P500",
+            f"{sp500_price.iloc[-1]:.2f}",
+            f"{sp500_price.iloc[-1]-sp500_price.iloc[-2]:.2f}"
+        )
+
+        index_col3.metric(
+            "🇺🇸 NASDAQ",
+            f"{nasdaq_price.iloc[-1]:.2f}",
+            f"{nasdaq_price.iloc[-1]-nasdaq_price.iloc[-2]:.2f}"
+        )
+
+        index_col4.metric(
+            "🇺🇸 DOW",
+            f"{dow_price.iloc[-1]:.2f}",
+            f"{dow_price.iloc[-1]-dow_price.iloc[-2]:.2f}"
+        )
+
+    except:
+        st.warning("증시 지수를 불러올 수 없습니다.")
 
     st.info(
         """
@@ -253,44 +294,4 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-st.subheader("🌎 주요 증시 지수")
 
-index_col1, index_col2, index_col3, index_col4 = st.columns(4)
-
-try:
-    kospi = yf.Ticker("^KS11")
-    sp500 = yf.Ticker("^GSPC")
-    nasdaq = yf.Ticker("^IXIC")
-    dow = yf.Ticker("^DJI")
-
-    kospi_price = kospi.history(period="2d")["Close"]
-    sp500_price = sp500.history(period="2d")["Close"]
-    nasdaq_price = nasdaq.history(period="2d")["Close"]
-    dow_price = dow.history(period="2d")["Close"]
-
-    index_col1.metric(
-        "🇰🇷 KOSPI",
-        f"{kospi_price.iloc[-1]:.2f}",
-        f"{kospi_price.iloc[-1]-kospi_price.iloc[-2]:.2f}"
-    )
-
-    index_col2.metric(
-        "🇺🇸 S&P 500",
-        f"{sp500_price.iloc[-1]:.2f}",
-        f"{sp500_price.iloc[-1]-sp500_price.iloc[-2]:.2f}"
-    )
-
-    index_col3.metric(
-        "🇺🇸 NASDAQ",
-        f"{nasdaq_price.iloc[-1]:.2f}",
-        f"{nasdaq_price.iloc[-1]-nasdaq_price.iloc[-2]:.2f}"
-    )
-
-    index_col4.metric(
-        "🇺🇸 DOW",
-        f"{dow_price.iloc[-1]:.2f}",
-        f"{dow_price.iloc[-1]-dow_price.iloc[-2]:.2f}"
-    )
-
-except:
-    st.warning("증시 지수를 불러올 수 없습니다.")
