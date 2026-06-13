@@ -132,30 +132,7 @@ if menu == "📈 주식/증권":
         except Exception as e:
             st.error(f"오류 발생: {e}")
 
-elif menu == "⚽ 스포츠":
 
-    st.title("⚽ 스포츠 센터")
-
-    sport = st.selectbox(
-        "종목 선택",
-        [
-            "축구",
-            "야구",
-            "농구"
-        ]
-    )
-
-    if sport == "축구":
-        st.header("⚽ 축구")
-        st.write("축구 경기 결과와 뉴스를 표시할 예정입니다.")
-
-    elif sport == "야구":
-        st.header("⚾ 야구")
-        st.write("야구 경기 결과와 뉴스를 표시할 예정입니다.")
-
-    elif sport == "농구":
-        st.header("🏀 농구")
-        st.write("농구 경기 결과와 뉴스를 표시할 예정입니다.")
 
 st.markdown("---")
 
@@ -179,7 +156,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-elif menu == "⚽ 스포츠":
+if menu == "⚽ 스포츠":
 
     import requests
 
@@ -200,7 +177,18 @@ elif menu == "⚽ 스포츠":
             response = requests.get(url)
             data = response.json()
 
-            for match in data["events"][:10]:
+           events = data.get("events")
+
+if events:
+    for match in events[:10]:
+        home = match.get("strHomeTeam", "Unknown")
+        away = match.get("strAwayTeam", "Unknown")
+        home_score = match.get("intHomeScore", "-")
+        away_score = match.get("intAwayScore", "-")
+
+        st.write(f"⚽ {home} {home_score} : {away_score} {away}")
+else:
+    st.warning("경기 데이터를 불러오지 못했습니다.")
 
                 home = match["strHomeTeam"]
                 away = match["strAwayTeam"]
