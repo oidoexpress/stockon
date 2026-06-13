@@ -172,48 +172,28 @@ if menu == "⚽ 스포츠":
         st.header("⚽ EPL 최근 경기 결과")
 
         url = "https://www.thesportsdb.com/api/v1/json/123/eventspastleague.php?id=4328"
+
         try:
-    response = requests.get(url)
-    data = response.json()
+            response = requests.get(url)
+            data = response.json()
 
-    events = data.get("events")
+            events = data.get("events")
 
-    if events:
-        for match in events[:10]:
-            home = match.get("strHomeTeam", "Unknown")
-            away = match.get("strAwayTeam", "Unknown")
-            home_score = match.get("intHomeScore", "-")
-            away_score = match.get("intAwayScore", "-")
+            if events:
+                for match in events[:10]:
 
-            st.write(
-                f"⚽ {home} {home_score} : {away_score} {away}"
-            )
-    else:
-        st.warning("경기 데이터를 불러오지 못했습니다.")
+                    home = match.get("strHomeTeam", "Unknown")
+                    away = match.get("strAwayTeam", "Unknown")
 
-except Exception as e:
-    st.error(f"오류: {e}")
+                    home_score = match.get("intHomeScore", "-")
+                    away_score = match.get("intAwayScore", "-")
 
-if events:
-    for match in events[:10]:
-        home = match.get("strHomeTeam", "Unknown")
-        away = match.get("strAwayTeam", "Unknown")
-        home_score = match.get("intHomeScore", "-")
-        away_score = match.get("intAwayScore", "-")
+                    st.write(
+                        f"⚽ {home} {home_score} : {away_score} {away}"
+                    )
 
-        st.write(f"⚽ {home} {home_score} : {away_score} {away}")
-else:
-    st.warning("경기 데이터를 불러오지 못했습니다.")
-
-                home = match["strHomeTeam"]
-                away = match["strAwayTeam"]
-
-                home_score = match["intHomeScore"]
-                away_score = match["intAwayScore"]
-
-                st.write(
-                    f"⚽ {home} {home_score} : {away_score} {away}"
-                )
+            else:
+                st.warning("경기 데이터를 불러오지 못했습니다.")
 
         except Exception as e:
             st.error(f"오류: {e}")
@@ -229,3 +209,26 @@ else:
         st.header("🏀 농구")
 
         st.info("NBA API 연동 예정")
+
+
+st.markdown("---")
+
+st.markdown(
+    """
+    <div style="text-align:center; color:gray; font-size:14px;">
+    <b>Stock On Korea</b><br>
+    개발자 : 이시형, 송민준, 이동기, 문주원, 지혜성<br><br>
+
+    © 2026 Stock On Korea. All Rights Reserved.<br>
+
+    본 웹사이트의 디자인, 코드, 분석 결과 화면 및 콘텐츠는
+    저작권법의 보호를 받습니다.<br>
+
+    개발자의 사전 허가 없이 무단 복제, 배포, 수정 및 상업적 이용을 금지합니다.<br>
+
+    본 서비스에서 제공하는 정보는 투자 참고용이며,
+    투자에 대한 최종 책임은 이용자 본인에게 있습니다.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
