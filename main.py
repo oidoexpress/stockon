@@ -181,7 +181,6 @@ if menu == "⚽ 스포츠":
 
             if events:
                 for match in events[:10]:
-
                     home = match.get("strHomeTeam", "Unknown")
                     away = match.get("strAwayTeam", "Unknown")
 
@@ -191,46 +190,44 @@ if menu == "⚽ 스포츠":
                     st.write(
                         f"⚽ {home} {home_score} : {away_score} {away}"
                     )
-
             else:
                 st.warning("경기 데이터를 불러오지 못했습니다.")
 
         except Exception as e:
             st.error(f"오류: {e}")
 
-elif sport == "야구":
+    elif sport == "야구":
 
-    st.header("⚾ MLB 최근 경기")
+        st.header("⚾ MLB 최근 경기")
 
-    url = "https://www.thesportsdb.com/api/v1/json/123/eventspastleague.php?id=4424"
+        url = "https://www.thesportsdb.com/api/v1/json/123/eventspastleague.php?id=4424"
 
-    try:
-        response = requests.get(url)
-        data = response.json()
+        try:
+            response = requests.get(url)
+            data = response.json()
 
-        events = data.get("events")
+            events = data.get("events")
 
-        if events:
-            for match in events[:10]:
+            if events:
+                for match in events[:10]:
+                    home = match.get("strHomeTeam", "Unknown")
+                    away = match.get("strAwayTeam", "Unknown")
 
-                home = match.get("strHomeTeam", "Unknown")
-                away = match.get("strAwayTeam", "Unknown")
+                    home_score = match.get("intHomeScore", "-")
+                    away_score = match.get("intAwayScore", "-")
 
-                home_score = match.get("intHomeScore", "-")
-                away_score = match.get("intAwayScore", "-")
+                    st.write(
+                        f"⚾ {home} {home_score} : {away_score} {away}"
+                    )
+            else:
+                st.warning("경기 데이터를 찾을 수 없습니다.")
 
-                st.write(
-                    f"⚾ {home} {home_score} : {away_score} {away}"
-                )
+        except Exception as e:
+            st.error(f"오류: {e}")
 
-        else:
-            st.warning("경기 데이터를 찾을 수 없습니다.")
-
-    except Exception as e:
-        st.error(f"오류: {e}")
     elif sport == "농구":
 
-        st.header("🏀 농구")
+        st.header("🏀 NBA")
 
         st.info("NBA API 연동 예정")
 
