@@ -105,3 +105,24 @@ try:
         st.info("뉴스를 찾을 수 없습니다.")
 except Exception as e:
     st.error(f"뉴스 오류: {e}")
+st.markdown("---")
+
+st.markdown(
+    """
+    <div style="text-align:center; color:gray; font-size:14px;">
+    <b>Stock On Korea</b><br>
+    개발자 : 이시형<br><br>
+
+    © 2026 Stock On Korea. All Rights Reserved.<br>
+
+    본 웹사이트의 디자인, 코드, 분석 결과 화면 및 콘텐츠는
+    저작권법의 보호를 받습니다.<br>
+
+    개발자의 사전 허가 없이 무단 복제, 배포, 수정 및 상업적 이용을 금지합니다.<br>
+
+    본 서비스에서 제공하는 정보는 투자 참고용이며,
+    투자에 대한 최종 책임은 이용자 본인에게 있습니다.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
