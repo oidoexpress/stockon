@@ -198,7 +198,7 @@ if menu == "⚽ 스포츠":
         except Exception as e:
             st.error(f"오류: {e}")
 
-   elif sport == "야구":
+elif sport == "야구":
 
     st.header("⚾ MLB 최근 경기")
 
