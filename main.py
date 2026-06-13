@@ -140,3 +140,32 @@ st.info(
     • 카카오 → 035720.KS
     """
 )
+import streamlit as st
+
+st.set_page_config(
+    page_title="Stock On Korea",
+    page_icon="📈",
+    layout="wide"
+)
+
+menu = st.sidebar.selectbox(
+    "메뉴 선택",
+    [
+        "📈 주식/증권",
+        "⚽ 스포츠",
+        "👤 로그인",
+        "📝 회원가입"
+    ]
+)
+
+if menu == "📈 주식/증권":
+    st.title("📈 Stock On Korea")
+
+elif menu == "⚽ 스포츠":
+    st.title("⚽ 스포츠")
+
+elif menu == "👤 로그인":
+    st.title("로그인")
+
+elif menu == "📝 회원가입":
+    st.title("회원가입")
