@@ -169,3 +169,25 @@ elif menu == "👤 로그인":
 
 elif menu == "📝 회원가입":
     st.title("회원가입")
+import json
+
+def load_users():
+    try:
+        with open("users.json", "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return {}
+
+def save_users(users):
+    with open("users.json", "w", encoding="utf-8") as f:
+        json.dump(users, f)
+
+users = load_users()
+
+username = st.text_input("아이디")
+password = st.text_input("비밀번호", type="password")
+
+if st.button("회원가입"):
+    users[username] = password
+    save_users(users)
+    st.success("회원가입 완료")
