@@ -85,3 +85,24 @@ if st.button("분석하기"):
 
     except Exception as e:
         st.error(f"오류 발생: {e}")
+
+st.subheader("📰 최신 관련 뉴스")
+
+try:
+    news_list = stock.news
+
+    if news_list:
+        for news in news_list[:10]:
+            title = news.get("title", "제목 없음")
+            publisher = news.get("publisher", "출처 없음")
+            link = news.get("link", "#")
+
+            st.markdown(f"### {title}")
+            st.write(f"📰 {publisher}")
+            st.markdown(f"[기사 보기]({link})")
+            st.divider()
+    else:
+        st.info("뉴스를 찾을 수 없습니다.")
+
+except Exception:
+    st.warning("뉴스를 불러올 수 없습니다.")
