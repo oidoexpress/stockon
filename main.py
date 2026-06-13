@@ -174,10 +174,26 @@ if menu == "⚽ 스포츠":
         url = "https://www.thesportsdb.com/api/v1/json/123/eventspastleague.php?id=4328"
 
         try:
-            response = requests.get(url)
-            data = response.json()
+    response = requests.get(url)
+    data = response.json()
 
-           events = data.get("events")
+    events = data.get("events")
+
+    if events:
+        for match in events[:10]:
+            home = match.get("strHomeTeam", "Unknown")
+            away = match.get("strAwayTeam", "Unknown")
+            home_score = match.get("intHomeScore", "-")
+            away_score = match.get("intAwayScore", "-")
+
+            st.write(
+                f"⚽ {home} {home_score} : {away_score} {away}"
+            )
+    else:
+        st.warning("경기 데이터를 불러오지 못했습니다.")
+
+except Exception as e:
+    st.error(f"오류: {e}")
 
 if events:
     for match in events[:10]:
