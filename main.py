@@ -111,7 +111,7 @@ st.markdown(
     """
     <div style="text-align:center; color:gray; font-size:14px;">
     <b>Stock On Korea</b><br>
-    개발자 : 이시형<br><br>
+    개발자 : 이시형,송민준,이동기,문주원,지혜성<br><br>
 
     © 2026 Stock On Korea. All Rights Reserved.<br>
 
