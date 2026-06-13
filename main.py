@@ -3,115 +3,167 @@ import yfinance as yf
 import pandas as pd
 
 st.set_page_config(
-    page_title="AI 주식 분석기",
+    page_title="Stock On Korea",
     page_icon="📈",
     layout="wide"
 )
 
-st.title("📈 AI 주식 분석기")
+menu = st.sidebar.selectbox(
+    "메뉴 선택",
+    [
+        "📈 주식/증권",
+        "⚽ 스포츠"
+    ]
+)
 
-ticker = st.text_input(
-    "주식 티커 입력 (예: AAPL, TSLA, NVDA)",
-    "AAPL"
-).upper()
+if menu == "📈 주식/증권":
 
-if st.button("분석하기"):
+    st.title("📈 AI 주식 분석기")
 
-    try:
-        stock = yf.Ticker(ticker)
+    st.info(
+        """
+        🇰🇷 대한민국 주식 안내
 
-        info = stock.info
+        대한민국의 주식을 분석하시려면
+        티커번호 뒤에 .KS를 붙여서 입력해주시기 바랍니다.
 
-        st.subheader(f"{info.get('longName', ticker)}")
+        예시:
+        • 삼성전자 → 005930.KS
+        • SK하이닉스 → 000660.KS
+        • NAVER → 035420.KS
+        • 카카오 → 035720.KS
+        """
+    )
 
-        col1, col2, col3 = st.columns(3)
+    ticker = st.text_input(
+        "주식 티커 입력 (예: AAPL, TSLA, NVDA)",
+        "AAPL"
+    ).upper()
 
-        col1.metric(
-            "현재가",
-            f"${info.get('currentPrice', 'N/A')}"
-        )
+    if st.button("분석하기"):
 
-        col2.metric(
-            "시가총액",
-            f"${info.get('marketCap', 0):,}"
-        )
+        try:
+            stock = yf.Ticker(ticker)
 
-        col3.metric(
-            "PER",
-            info.get('trailingPE', 'N/A')
-        )
+            info = stock.info
 
-        data = stock.history(period="1y")
+            st.subheader(f"{info.get('longName', ticker)}")
 
-        st.subheader("📊 최근 1년 주가")
+            col1, col2, col3 = st.columns(3)
 
-        data["MA20"] = data["Close"].rolling(20).mean()
-        data["MA50"] = data["Close"].rolling(50).mean()
-
-        st.line_chart(
-            data[["Close", "MA20", "MA50"]]
-        )
-
-        high = data["High"].max()
-        low = data["Low"].min()
-
-        st.subheader("📌 핵심 지표")
-
-        st.write(f"1년 최고가 : ${high:.2f}")
-        st.write(f"1년 최저가 : ${low:.2f}")
-
-        current = data["Close"].iloc[-1]
-        ma20 = data["MA20"].iloc[-1]
-
-        st.subheader("🤖 AI 투자 의견")
-
-        if current > ma20:
-            st.success(
-                "현재 주가가 20일 이동평균선 위에 있습니다. 단기 상승 추세입니다."
-            )
-        else:
-            st.warning(
-                "현재 주가가 20일 이동평균선 아래에 있습니다. 단기 약세 추세입니다."
+            col1.metric(
+                "현재가",
+                f"${info.get('currentPrice', 'N/A')}"
             )
 
-        st.subheader("🏢 회사 소개")
-
-        st.write(
-            info.get(
-                "longBusinessSummary",
-                "회사 정보 없음"
+            col2.metric(
+                "시가총액",
+                f"${info.get('marketCap', 0):,}"
             )
-        )
 
-    except Exception as e:
-        st.error(f"오류 발생: {e}")
+            col3.metric(
+                "PER",
+                info.get('trailingPE', 'N/A')
+            )
 
-st.subheader("📰 최신 관련 뉴스")
+            data = stock.history(period="1y")
 
-try:
-    news_list = stock.news
+            st.subheader("📊 최근 1년 주가")
 
-    if news_list:
-        for news in news_list[:10]:
-            title = news.get("title", "제목 없음")
-            publisher = news.get("publisher", "출처 없음")
-            link = news.get("link", "#")
+            data["MA20"] = data["Close"].rolling(20).mean()
+            data["MA50"] = data["Close"].rolling(50).mean()
 
-            st.markdown(f"### {title}")
-            st.write(f"📰 {publisher}")
-            st.markdown(f"[기사 보기]({link})")
-            st.divider()
-    else:
-        st.info("뉴스를 찾을 수 없습니다.")
-except Exception as e:
-    st.error(f"뉴스 오류: {e}")
+            st.line_chart(
+                data[["Close", "MA20", "MA50"]]
+            )
+
+            high = data["High"].max()
+            low = data["Low"].min()
+
+            st.subheader("📌 핵심 지표")
+
+            st.write(f"1년 최고가 : ${high:.2f}")
+            st.write(f"1년 최저가 : ${low:.2f}")
+
+            current = data["Close"].iloc[-1]
+            ma20 = data["MA20"].iloc[-1]
+
+            st.subheader("🤖 AI 투자 의견")
+
+            if current > ma20:
+                st.success(
+                    "현재 주가가 20일 이동평균선 위에 있습니다. 단기 상승 추세입니다."
+                )
+            else:
+                st.warning(
+                    "현재 주가가 20일 이동평균선 아래에 있습니다. 단기 약세 추세입니다."
+                )
+
+            st.subheader("🏢 회사 소개")
+
+            st.write(
+                info.get(
+                    "longBusinessSummary",
+                    "회사 정보 없음"
+                )
+            )
+
+            st.subheader("📰 최신 관련 뉴스")
+
+            try:
+                news_list = stock.news
+
+                if news_list:
+                    for news in news_list[:10]:
+                        title = news.get("title", "제목 없음")
+                        publisher = news.get("publisher", "출처 없음")
+                        link = news.get("link", "#")
+
+                        st.markdown(f"### {title}")
+                        st.write(f"📰 {publisher}")
+                        st.markdown(f"[기사 보기]({link})")
+                        st.divider()
+                else:
+                    st.info("뉴스를 찾을 수 없습니다.")
+
+            except Exception as e:
+                st.error(f"뉴스 오류: {e}")
+
+        except Exception as e:
+            st.error(f"오류 발생: {e}")
+
+elif menu == "⚽ 스포츠":
+
+    st.title("⚽ 스포츠 센터")
+
+    sport = st.selectbox(
+        "종목 선택",
+        [
+            "축구",
+            "야구",
+            "농구"
+        ]
+    )
+
+    if sport == "축구":
+        st.header("⚽ 축구")
+        st.write("축구 경기 결과와 뉴스를 표시할 예정입니다.")
+
+    elif sport == "야구":
+        st.header("⚾ 야구")
+        st.write("야구 경기 결과와 뉴스를 표시할 예정입니다.")
+
+    elif sport == "농구":
+        st.header("🏀 농구")
+        st.write("농구 경기 결과와 뉴스를 표시할 예정입니다.")
+
 st.markdown("---")
 
 st.markdown(
     """
     <div style="text-align:center; color:gray; font-size:14px;">
     <b>Stock On Korea</b><br>
-    개발자 : 이시형,송민준,이동기,문주원,지혜성<br><br>
+    개발자 : 이시형, 송민준, 이동기, 문주원, 지혜성<br><br>
 
     © 2026 Stock On Korea. All Rights Reserved.<br>
 
@@ -126,68 +178,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-st.info(
-    """
-    🇰🇷 대한민국 주식 안내
-
-    대한민국의 주식을 분석하시려면
-    티커번호 뒤에 .KS를 붙여서 입력해주시기 바랍니다.
-
-    예시:
-    • 삼성전자 → 005930.KS
-    • SK하이닉스 → 000660.KS
-    • NAVER → 035420.KS
-    • 카카오 → 035720.KS
-    """
-)
-import streamlit as st
-
-st.set_page_config(
-    page_title="Stock On Korea",
-    page_icon="📈",
-    layout="wide"
-)
-
-menu = st.sidebar.selectbox(
-    "메뉴 선택",
-    [
-        "📈 주식/증권",
-        "⚽ 스포츠",
-        "👤 로그인",
-        "📝 회원가입"
-    ]
-)
-
-if menu == "📈 주식/증권":
-    st.title("📈 Stock On Korea")
-
-elif menu == "⚽ 스포츠":
-    st.title("⚽ 스포츠")
-
-elif menu == "👤 로그인":
-    st.title("로그인")
-
-elif menu == "📝 회원가입":
-    st.title("회원가입")
-import json
-
-def load_users():
-    try:
-        with open("users.json", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except:
-        return {}
-
-def save_users(users):
-    with open("users.json", "w", encoding="utf-8") as f:
-        json.dump(users, f)
-
-users = load_users()
-
-username = st.text_input("아이디")
-password = st.text_input("비밀번호", type="password")
-
-if st.button("회원가입"):
-    users[username] = password
-    save_users(users)
-    st.success("회원가입 완료")
