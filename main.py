@@ -178,3 +178,51 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+elif menu == "⚽ 스포츠":
+
+    import requests
+
+    st.title("⚽ Stock On Korea 스포츠 센터")
+
+    sport = st.selectbox(
+        "종목 선택",
+        ["축구", "야구", "농구"]
+    )
+
+    if sport == "축구":
+
+        st.header("⚽ EPL 최근 경기 결과")
+
+        url = "https://www.thesportsdb.com/api/v1/json/123/eventspastleague.php?id=4328"
+
+        try:
+            response = requests.get(url)
+            data = response.json()
+
+            for match in data["events"][:10]:
+
+                home = match["strHomeTeam"]
+                away = match["strAwayTeam"]
+
+                home_score = match["intHomeScore"]
+                away_score = match["intAwayScore"]
+
+                st.write(
+                    f"⚽ {home} {home_score} : {away_score} {away}"
+                )
+
+        except Exception as e:
+            st.error(f"오류: {e}")
+
+    elif sport == "야구":
+
+        st.header("⚾ 야구")
+
+        st.info("MLB/KBO API 연동 예정")
+
+    elif sport == "농구":
+
+        st.header("🏀 농구")
+
+        st.info("NBA API 연동 예정")
