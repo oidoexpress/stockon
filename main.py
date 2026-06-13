@@ -19,7 +19,7 @@ menu = st.sidebar.selectbox(
 if menu == "📈 주식/증권":
 
     st.title("📈 AI 주식 분석기")
-        st.subheader("🌎 주요 증시 지수")
+    st.subheader("🌎 주요 증시 지수")
 
     index_col1, index_col2, index_col3, index_col4 = st.columns(4)
 
