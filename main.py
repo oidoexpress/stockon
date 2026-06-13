@@ -172,7 +172,6 @@ if menu == "⚽ 스포츠":
         st.header("⚽ EPL 최근 경기 결과")
 
         url = "https://www.thesportsdb.com/api/v1/json/123/eventspastleague.php?id=4328"
-
         try:
     response = requests.get(url)
     data = response.json()
